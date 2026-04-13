@@ -38,7 +38,11 @@ class AVPlayerViewModel: NSObject {
 }
 
 extension AVPlayerViewModel: AVPlayerViewControllerDelegate {
-    nonisolated func playerViewController(_ playerViewController: AVPlayerViewController, willEndFullScreenPresentationWithAnimationCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    nonisolated func playerViewController(
+        _ playerViewController: AVPlayerViewController,
+        willEndFullScreenPresentationWithAnimationCoordinator coordinator:
+            UIViewControllerTransitionCoordinator
+    ) {
         Task { @MainActor in
             reset()
         }

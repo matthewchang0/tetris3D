@@ -4,7 +4,7 @@ struct ControlPanelView: View {
     @EnvironmentObject var gameManager: TetrisGameManager
     @Environment(\.dismissWindow) var dismissWindow
     @State private var showingPauseMenu = false
-    
+
     var body: some View {
         VStack(spacing: 25) {
             // Pause button at the top
@@ -29,7 +29,7 @@ struct ControlPanelView: View {
                 .opacity(gameManager.isGameOver ? 0.3 : 1.0)
             }
             .padding(.horizontal)
-            
+
             // Score display
             HStack(spacing: 35) {
                 VStack(spacing: 4) {
@@ -41,11 +41,11 @@ struct ControlPanelView: View {
                         .foregroundColor(.cyan)
                         .tracking(1)
                 }
-                
+
                 Rectangle()
                     .fill(Color.white.opacity(0.3))
                     .frame(width: 2, height: 60)
-                
+
                 VStack(spacing: 4) {
                     Text("\(gameManager.level)")
                         .font(.system(size: 42, weight: .bold, design: .rounded))
@@ -55,11 +55,11 @@ struct ControlPanelView: View {
                         .foregroundColor(.purple)
                         .tracking(1)
                 }
-                
+
                 Rectangle()
                     .fill(Color.white.opacity(0.3))
                     .frame(width: 2, height: 60)
-                
+
                 VStack(spacing: 4) {
                     Text("\(gameManager.linesCleared)")
                         .font(.system(size: 42, weight: .bold, design: .rounded))
@@ -71,7 +71,7 @@ struct ControlPanelView: View {
                 }
             }
             .padding()
-            
+
             // Control buttons
             HStack(spacing: 18) {
                 Button(action: { gameManager.moveLeft() }) {
@@ -88,7 +88,7 @@ struct ControlPanelView: View {
                 }
                 .disabled(gameManager.isGameOver)
                 .opacity(gameManager.isGameOver ? 0.5 : 1.0)
-                
+
                 Button(action: { gameManager.rotate() }) {
                     VStack(spacing: 6) {
                         Image(systemName: "arrow.clockwise.circle.fill")
@@ -103,7 +103,7 @@ struct ControlPanelView: View {
                 }
                 .disabled(gameManager.isGameOver)
                 .opacity(gameManager.isGameOver ? 0.5 : 1.0)
-                
+
                 Button(action: { gameManager.moveRight() }) {
                     VStack(spacing: 6) {
                         Image(systemName: "arrow.right.circle.fill")
@@ -118,7 +118,7 @@ struct ControlPanelView: View {
                 }
                 .disabled(gameManager.isGameOver)
                 .opacity(gameManager.isGameOver ? 0.5 : 1.0)
-                
+
                 Button(action: { gameManager.drop() }) {
                     VStack(spacing: 6) {
                         Image(systemName: "arrow.down.circle.fill")
@@ -134,7 +134,7 @@ struct ControlPanelView: View {
                 .disabled(gameManager.isGameOver)
                 .opacity(gameManager.isGameOver ? 0.5 : 1.0)
             }
-            
+
             // Game Over / Replay section
             if gameManager.isGameOver {
                 VStack(spacing: 15) {
@@ -149,7 +149,7 @@ struct ControlPanelView: View {
                             .foregroundColor(.white)
                     }
                     .padding(.vertical, 10)
-                    
+
                     // Replay button
                     Button(action: {
                         gameManager.startGame()
@@ -190,7 +190,10 @@ struct ControlPanelView: View {
         .padding()
         .background(
             LinearGradient(
-                colors: [Color(red: 0.05, green: 0.05, blue: 0.1), Color(red: 0.1, green: 0.05, blue: 0.15)],
+                colors: [
+                    Color(red: 0.05, green: 0.05, blue: 0.1),
+                    Color(red: 0.1, green: 0.05, blue: 0.15),
+                ],
                 startPoint: .top,
                 endPoint: .bottom
             )

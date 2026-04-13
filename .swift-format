@@ -1,0 +1,28 @@
+{
+    "indentation": {
+        "spaces": 4
+    },
+    "lineBreakAroundMultilineExpressionChainComponents": true,
+    "lineBreakBeforeEachArgument": true,
+    "lineLength": 100,
+    "maximumBlankLines": 1,
+    "multiElementCollectionTrailingCommas": true,
+    "prioritizeKeepingFunctionOutputTogether": true,
+    "respectsExistingLineBreaks": true,
+    "rules": {
+        "FileScopedDeclarationPrivacy": true,
+        "NoAssignmentInExpressions": true,
+        "NoBlockComments": true,
+        "NoEmptyTrailingClosureParentheses": true,
+        "NoParensAroundConditions": true,
+        "OneCasePerLine": true,
+        "OneVariableDeclarationPerLine": true,
+        "OnlyOneTrailingClosureArgument": true,
+        "OrderedImports": true,
+        "TypeNamesShouldBeCapitalized": false,
+        "UseShorthandTypeNames": true
+    },
+    "spacesBeforeEndOfLineComments": 2,
+    "tabWidth": 8,
+    "version": 1
+}

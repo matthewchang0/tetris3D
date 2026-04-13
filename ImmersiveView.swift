@@ -1,22 +1,22 @@
-import SwiftUI
 import RealityKit
+import SwiftUI
 
 struct ImmersiveTetrisView: View {
     @EnvironmentObject var gameManager: TetrisGameManager
     @State private var boardEntity: Entity?
-    
+
     var body: some View {
         ZStack {
             RealityView { content in
                 let board = createGameBoard()
                 boardEntity = board
                 content.add(board)
-                
+
                 let light = PointLight()
                 light.light.intensity = 1000
                 light.position = [0, 1, 0.5]
                 content.add(light)
-                
+
             } update: { content in
                 if let board = boardEntity {
                     updateGameBoard(board: board)
@@ -29,11 +29,11 @@ struct ImmersiveTetrisView: View {
                         gameManager.rotate()
                     }
             )
-            
+
             // Control Panel - Bottom Center
             VStack {
                 Spacer()
-                
+
                 VStack(spacing: 20) {
                     // Game Controls
                     HStack(spacing: 30) {
@@ -47,7 +47,7 @@ struct ImmersiveTetrisView: View {
                         }
                         .buttonStyle(.borderedProminent)
                         .tint(.blue)
-                        
+
                         // Rotate
                         Button {
                             gameManager.rotate()
@@ -58,7 +58,7 @@ struct ImmersiveTetrisView: View {
                         }
                         .buttonStyle(.borderedProminent)
                         .tint(.purple)
-                        
+
                         // Right
                         Button {
                             gameManager.moveRight()
@@ -69,7 +69,7 @@ struct ImmersiveTetrisView: View {
                         }
                         .buttonStyle(.borderedProminent)
                         .tint(.blue)
-                        
+
                         // Drop
                         Button {
                             gameManager.drop()
@@ -81,7 +81,7 @@ struct ImmersiveTetrisView: View {
                         .buttonStyle(.bordered)
                         .tint(.cyan)
                     }
-                    
+
                     // Instructions
                     Text("Tap buttons to control • Tap board to rotate")
                         .font(.caption)
@@ -94,30 +94,30 @@ struct ImmersiveTetrisView: View {
             }
         }
     }
-    
+
     func createGameBoard() -> Entity {
         let boardEntity = Entity()
         boardEntity.position = [0, 1.5, -1.0]
-        
+
         let gridWidth: Float = 0.4
         let gridHeight: Float = 0.8
         let blockSize: Float = gridWidth / 10
-        
+
         var backMaterial = SimpleMaterial()
         backMaterial.color = .init(tint: .black.withAlphaComponent(0.3))
-        
+
         let backPanel = ModelEntity(
             mesh: .generateBox(width: gridWidth + 0.02, height: gridHeight + 0.02, depth: 0.01),
             materials: [backMaterial]
         )
         backPanel.position.z = -blockSize / 2
         boardEntity.addChild(backPanel)
-        
+
         for i in 0...10 {
             let x = Float(i) * blockSize - gridWidth / 2
             var lineMaterial = SimpleMaterial()
             lineMaterial.color = .init(tint: .white.withAlphaComponent(0.2))
-            
+
             let line = ModelEntity(
                 mesh: .generateBox(width: 0.001, height: gridHeight, depth: 0.001),
                 materials: [lineMaterial]
@@ -125,12 +125,12 @@ struct ImmersiveTetrisView: View {
             line.position = [x, 0, 0]
             boardEntity.addChild(line)
         }
-        
+
         for i in 0...20 {
             let y = Float(i) * (gridHeight / 20) - gridHeight / 2
             var lineMaterial = SimpleMaterial()
             lineMaterial.color = .init(tint: .white.withAlphaComponent(0.2))
-            
+
             let line = ModelEntity(
                 mesh: .generateBox(width: gridWidth, height: 0.001, depth: 0.001),
                 materials: [lineMaterial]
@@ -138,21 +138,21 @@ struct ImmersiveTetrisView: View {
             line.position = [0, y, 0]
             boardEntity.addChild(line)
         }
-        
+
         return boardEntity
     }
-    
+
     func updateGameBoard(board: Entity) {
         for child in board.children {
             if child.name.starts(with: "block_") {
                 child.removeFromParent()
             }
         }
-        
+
         let gridWidth: Float = 0.4
         let gridHeight: Float = 0.8
         let blockSize: Float = gridWidth / 10
-        
+
         for (rowIndex, row) in gameManager.grid.enumerated() {
             for (colIndex, cell) in row.enumerated() {
                 if let shape = cell {
@@ -165,7 +165,7 @@ struct ImmersiveTetrisView: View {
                 }
             }
         }
-        
+
         if let piece = gameManager.currentPiece {
             for (i, row) in piece.blocks.enumerated() {
                 for (j, cell) in row.enumerated() where cell == 1 {
@@ -181,15 +181,15 @@ struct ImmersiveTetrisView: View {
             }
         }
     }
-    
+
     func createBlock(shape: TetrisShape, size: Float) -> ModelEntity {
         let mesh = MeshResource.generateBox(size: size * 0.95)
-        
+
         var material = SimpleMaterial()
         material.color = .init(tint: UIColor(shape.color))
         material.metallic = .init(floatLiteral: 0.3)
         material.roughness = .init(floatLiteral: 0.4)
-        
+
         return ModelEntity(mesh: mesh, materials: [material])
     }
 }

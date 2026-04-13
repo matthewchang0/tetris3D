@@ -5,7 +5,7 @@ struct CombinedGameView: View {
     @Environment(\.dismissWindow) var dismissWindow
     @Environment(\.openWindow) var openWindow
     @State private var showingPauseMenu = false
-    
+
     var body: some View {
         VStack(spacing: 20) {
             // Score display at top
@@ -19,11 +19,11 @@ struct CombinedGameView: View {
                         .foregroundColor(.cyan)
                         .tracking(1)
                 }
-                
+
                 Rectangle()
                     .fill(Color.white.opacity(0.3))
                     .frame(width: 2, height: 55)
-                
+
                 VStack(spacing: 4) {
                     Text("\(gameManager.level)")
                         .font(.system(size: 40, weight: .bold, design: .rounded))
@@ -33,11 +33,11 @@ struct CombinedGameView: View {
                         .foregroundColor(.purple)
                         .tracking(1)
                 }
-                
+
                 Rectangle()
                     .fill(Color.white.opacity(0.3))
                     .frame(width: 2, height: 55)
-                
+
                 VStack(spacing: 4) {
                     Text("\(gameManager.linesCleared)")
                         .font(.system(size: 40, weight: .bold, design: .rounded))
@@ -47,7 +47,7 @@ struct CombinedGameView: View {
                         .foregroundColor(.green)
                         .tracking(1)
                 }
-                
+
                 // Pause button
                 Button(action: {
                     if !gameManager.isGameOver {
@@ -77,10 +77,10 @@ struct CombinedGameView: View {
                             .stroke(Color.white.opacity(0.2), lineWidth: 1)
                     )
             )
-            
+
             // 3D Game Board
             GameBoardOnlyView()
-            
+
             // Control buttons at bottom
             VStack(spacing: 15) {
                 HStack(spacing: 18) {
@@ -98,7 +98,7 @@ struct CombinedGameView: View {
                     }
                     .disabled(gameManager.isGameOver)
                     .opacity(gameManager.isGameOver ? 0.5 : 1.0)
-                    
+
                     // SWAPPED: Right button now in middle
                     Button(action: { gameManager.moveRight() }) {
                         VStack(spacing: 6) {
@@ -114,7 +114,7 @@ struct CombinedGameView: View {
                     }
                     .disabled(gameManager.isGameOver)
                     .opacity(gameManager.isGameOver ? 0.5 : 1.0)
-                    
+
                     // SWAPPED: Rotate button now third
                     Button(action: { gameManager.rotate() }) {
                         VStack(spacing: 6) {
@@ -130,7 +130,7 @@ struct CombinedGameView: View {
                     }
                     .disabled(gameManager.isGameOver)
                     .opacity(gameManager.isGameOver ? 0.5 : 1.0)
-                    
+
                     Button(action: { gameManager.drop() }) {
                         VStack(spacing: 6) {
                             Image(systemName: "arrow.down.circle.fill")
@@ -150,7 +150,10 @@ struct CombinedGameView: View {
             .padding()
             .background(
                 LinearGradient(
-                    colors: [Color(red: 0.05, green: 0.05, blue: 0.1), Color(red: 0.1, green: 0.05, blue: 0.15)],
+                    colors: [
+                        Color(red: 0.05, green: 0.05, blue: 0.1),
+                        Color(red: 0.1, green: 0.05, blue: 0.15),
+                    ],
                     startPoint: .top,
                     endPoint: .bottom
                 )
@@ -162,7 +165,7 @@ struct CombinedGameView: View {
                         // Semi-transparent backdrop
                         Color.black.opacity(0.7)
                             .ignoresSafeArea()
-                        
+
                         // Game Over Card - Compact version
                         VStack(spacing: 12) {
                             // Title
@@ -176,7 +179,7 @@ struct CombinedGameView: View {
                                     )
                                 )
                                 .shadow(color: .red, radius: 8)
-                            
+
                             // Play Again Button
                             Button(action: {
                                 withAnimation {
@@ -238,7 +241,7 @@ struct CombinedGameView: View {
                     // Reset game first
                     gameManager.resetGame()
                     showingPauseMenu = false
-                    
+
                     // Close game window and open menu
                     Task { @MainActor in
                         dismissWindow(id: "GameWindow")
